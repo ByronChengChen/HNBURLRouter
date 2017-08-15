@@ -6,9 +6,9 @@
 //  Copyright © 2017年 开发. All rights reserved.
 //
 
+#import <MJExtension/MJExtension.h>
 #import "HNBBaseURLRouter.h"
 #import "NSDictionary+Extension.h"
-#import <MJExtension.h>
 
 static NSString *const HNBRouterScheme = @"hnb://";
 static NSString *const HNBRouterParamSepartor = @"?";
