@@ -16,7 +16,7 @@
 + (instancetype)shareURLRouter;
 
 /**
- *  远程调用
+ *  远程调用 ：适用于h5中按钮触发的新页面，直接传入一个url，在url中携带参数，最终调用的也是本地调用方法
  */
 + (id)viewControllerForRemoteUrl:(NSString *)url;
 
@@ -26,9 +26,14 @@
 + (id)viewControllerForUrl:(NSString *)url;
 
 /**
- * 本地调用有参
+ * 本地调用有参 ：调用时候，url无须携带传入的参数，参数在params设置
  */
 + (id)viewControllerForUrl:(NSString *)url withParams:(NSDictionary*)params;
+
+/**
+ * 获取屏幕最上方的导航控制器
+ */
++ (UINavigationController *)activityViewController;
 
 @end
 

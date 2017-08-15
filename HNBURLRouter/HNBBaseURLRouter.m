@@ -8,6 +8,7 @@
 
 #import "HNBBaseURLRouter.h"
 #import "NSDictionary+Extension.h"
+#import <MJExtension.h>
 
 static NSString *const HNBRouterScheme = @"hnb://";
 static NSString *const HNBRouterParamSepartor = @"?";
@@ -63,7 +64,10 @@ static NSString *const HNBRouterAnd = @"&";
             }
         }
     }
-    UIViewController *vc = [self viewControllerForUrl:url withParams:params];
+    UIViewController *vc = nil;
+    if(seperatorArray.count >= 1){
+        vc = [self viewControllerForUrl:seperatorArray[0] withParams:params];
+    }
     return vc;
 }
 
@@ -101,11 +105,39 @@ static NSString *const HNBRouterAnd = @"&";
     //给vc传参
     if(params && params.allKeys.count > 0 && vcInstance){
         params = [NSDictionary hnb_removeNullFromDictionary:params];
-        [vcInstance setValuesForKeysWithDictionary:params];
+        //TODO: chengk 将字典存到对象的各个属性里面，这个有待加强，不需要依赖mj
+        [vcInstance mj_setKeyValues:params];
+//        [vcInstance setValuesForKeysWithDictionary:params];
     }else{
         
     }
     return vcInstance;
+}
+
+//前提条件所有的控制器都有导航控制器的
++ (UINavigationController *)activityViewController {
+    UIViewController* activityViewController = nil;
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    if(window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow *tmpWin in windows) {
+            if(tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin; break;
+            }
+        }
+    }
+    
+    NSArray *viewsArray = [window subviews];
+    if([viewsArray count] > 0) {
+        UIView *frontView = [viewsArray objectAtIndex:0];
+        id nextResponder = [frontView nextResponder];
+        if([nextResponder isKindOfClass:[UIViewController class]]) {
+            activityViewController = nextResponder;
+        } else {
+            activityViewController = window.rootViewController;
+        }
+    }
+    return (UINavigationController*)activityViewController;
 }
 
 @end

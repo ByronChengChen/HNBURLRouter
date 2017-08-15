@@ -13,7 +13,7 @@
 	WeatherViewController *vc = [WeatherViewController new];
 	[self.navigationController pushViewController:vc animated:YES];
 ```
-* 2 快速迭代过程中，即使测试再仔细，也无法保证线上的产品是没有bug的，之前可以使用jspatch方式来热修复，但是07年三月份之后，苹果不再允许使用JSPatch的应用上线appStore。除了使用类似于faceBook的RN 这样的js方案来解决外，原生无法做到热修复。
+* 2 快速迭代过程中，即使测试再仔细，也无法保证线上的产品是没有bug的，之前可以使用jspatch方式来热修复，但是17年三月份之后，苹果不再允许使用JSPatch的应用上线appStore。除了使用类似于faceBook的RN 这样的js方案来解决外，原生无法做到热修复。
 
 * 3 项目要求app首页主菜单的四个按钮需要动态配置，原生的做法不太好实现。
 ## 原理
@@ -29,4 +29,4 @@
 
 * 4 远程调用
  * 通过浏览器或者其他app内置h5打开。`finish`
- * 项目内配置：app内动态配置某个原生页面的按钮点击事件，可以让该页面动态按钮(相应页面由服务端配置)绑定到该页面接口返回的url中，使用远程调用的方式实现按钮动态化。`to test`
+ * 项目内配置：app内动态配置某个原生页面的按钮点击事件，可以让该页面动态按钮(相应页面由服务端配置)绑定到该页面接口返回的url中，[使用远程调用的方式实现按钮动态化。](https://github.com/ByronChengChen/HNBKit.git)`finish`
