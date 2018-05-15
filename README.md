@@ -23,7 +23,7 @@
 
 * 2 基于Router提供一个中介者，中介者为每个vc提供打开方式。eg:
 `[Mediator orderDeatilViewControllerWithId:orderID]`
-方法内部使用URLRouter获取具体的VC并且赋参,参数可以是普通类型，也可以是复杂类型也可以是非常规类型 这样就解决了casatwy提出的`传params容易懵逼的问题` [iOS应用架构谈 组件化方案 ](https://casatwy.com/iOS-Modulization.html)。`todo`
+方法内部使用URLRouter获取具体的VC并且赋参,参数可以是普通类型，也可以是复杂类型也可以是非常规类型 这样就解决了casatwy提出的`传params容易懵逼的问题` [iOS应用架构谈 组件化方案 ](https://casatwy.com/iOS-Modulization.html)。`finish`
 
 * 3 为了解决问题2:线上的bug，可以使用webView替换native vc的方法修改线上bug。具体做法是在 Mediator open一个具体的控制器的时候，可以在检查本地字典需要打开的控制器是否需要被替换，本地字典可以在app启动的时候就获取。`todo`
 
