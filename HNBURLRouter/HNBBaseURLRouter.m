@@ -7,7 +7,9 @@
 //
 
 #import "HNBBaseURLRouter.h"
+
 #import "NSDictionary+Extension.h"
+
 static NSString *const HNBRouterParamSepartor = @"?";
 static NSString *const HNBRouterEqual = @"=";
 static NSString *const HNBRouterAnd = @"&";
