@@ -1,6 +1,6 @@
 {
   "name": "HNBURLRouter",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "summary": "url router",
   "homepage": "https://github.com/ByronChengChen/HNBURLRouter",
   "license": {
@@ -20,10 +20,5 @@
   "source_files": [
     "HNBURLRouter",
     "HNBURLRouter/HNBURLRouter/**/*"
-  ],
-  "dependencies": {
-    "MJExtension": [
-      "3.0.13"
-    ]
-  }
+  ]
 }
