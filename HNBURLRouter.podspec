@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HNBURLRouter"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "url router"
   s.homepage     = "https://github.com/ByronChengChen/HNBURLRouter"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -8,5 +8,4 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/ByronChengChen/HNBURLRouter.git", :tag => "0.0.4" }
   s.platform     = :ios, '8.0'
   s.source_files  = "HNBURLRouter", "HNBURLRouter/HNBURLRouter/**/*"
-  s.dependency 'MJExtension', '3.0.13'
 end

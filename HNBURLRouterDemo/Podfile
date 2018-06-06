@@ -1,0 +1,7 @@
+platform :ios, '8.0'
+use_frameworks!
+target :HNBURLRouterDemo do
+    pod 'HNBURLRouter',:path => '../'
+    pod 'ReactiveObjC', '3.1.0'
+    pod 'Masonry', '1.1.0'
+end

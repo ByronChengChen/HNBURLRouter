@@ -1,0 +1,31 @@
+PODS:
+  - HNBURLRouter (0.0.4):
+    - MJExtension (= 3.0.13)
+  - Masonry (1.1.0)
+  - MJExtension (3.0.13)
+  - ReactiveObjC (3.1.0)
+
+DEPENDENCIES:
+  - HNBURLRouter (from `../`)
+  - Masonry (= 1.1.0)
+  - ReactiveObjC (= 3.1.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Masonry
+    - MJExtension
+    - ReactiveObjC
+
+EXTERNAL SOURCES:
+  HNBURLRouter:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  HNBURLRouter: 2dae029d5bec2069cceb427cbd17f06d6280db49
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  ReactiveObjC: 2a38ea15335de4119d8b17caf1db1484f61db902
+
+PODFILE CHECKSUM: a54e04f403ecccd495cca5257a4c8ccf2c900214
+
+COCOAPODS: 1.5.2

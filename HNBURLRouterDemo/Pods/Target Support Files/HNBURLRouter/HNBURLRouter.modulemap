@@ -1,0 +1,6 @@
+framework module HNBURLRouter {
+  umbrella header "HNBURLRouter-umbrella.h"
+
+  export *
+  module * { export * }
+}

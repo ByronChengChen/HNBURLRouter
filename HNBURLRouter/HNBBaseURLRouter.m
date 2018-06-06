@@ -6,24 +6,23 @@
 //  Copyright © 2017年 开发. All rights reserved.
 //
 
-#import <MJExtension/MJExtension.h>
 #import "HNBBaseURLRouter.h"
 #import "NSDictionary+Extension.h"
-
-static NSString *const HNBRouterScheme = @"hnb://";
 static NSString *const HNBRouterParamSepartor = @"?";
 static NSString *const HNBRouterEqual = @"=";
 static NSString *const HNBRouterAnd = @"&";
 
 
 @interface HNBBaseURLRouter()
-
-
+//SchemeName 可以配置 通过config
+@property (nonatomic, weak) id<HNBRouterConfig> config;
 @end
 
 @implementation HNBBaseURLRouter
 
-
++ (void)startWithConfig:(id<HNBRouterConfig>)config{
+    [HNBBaseURLRouter shareURLRouter].config = config;
+}
 
 + (instancetype)shareURLRouter{
     static HNBBaseURLRouter *urlRouter = nil;
@@ -80,23 +79,23 @@ static NSString *const HNBRouterAnd = @"&";
 //本地调用 有参
 + (id)viewControllerForUrl:(NSString *)url withParams:(NSDictionary*)params{
     UIViewController *vcInstance = nil;
-    //找到path
-    NSString *urlPath = nil;
-    if([url containsString:HNBRouterScheme]){
-        NSArray *seperatorScheme = [url componentsSeparatedByString:HNBRouterScheme];
-        for (NSString *vcUrl in seperatorScheme) {
-            if(vcUrl && vcUrl.length > 0){
-                urlPath = [NSString stringWithFormat:@"%@%@",HNBRouterScheme,vcUrl];
-                break;
-            }
-        }
-    }
-    if(HNBBASERouterRegistedDic[urlPath]){
-        Class vcClass = HNBBASERouterRegistedDic[urlPath];
+//    //找到path 啥意思？没用的话，删掉吧
+//    NSString *urlPath = nil;
+//    if([url containsString:[[HNBBaseURLRouter shareURLRouter].config hnbSchemeName]]){
+//        NSArray *seperatorScheme = [url componentsSeparatedByString:[[HNBBaseURLRouter shareURLRouter].config hnbSchemeName]];
+//        for (NSString *vcUrl in seperatorScheme) {
+//            if(vcUrl && vcUrl.length > 0){
+//                urlPath = [NSString stringWithFormat:@"%@%@",[[HNBBaseURLRouter shareURLRouter].config hnbSchemeName],vcUrl];
+//                break;
+//            }
+//        }
+//    }
+    if(HNBBASERouterRegistedDic[url]){
+        Class vcClass = HNBBASERouterRegistedDic[url];
         if(vcClass && [vcClass isSubclassOfClass:[UIViewController class]]){
             vcInstance = [vcClass instanceHNBViewController];
         }else{
-
+            
         }
     }else{
        
@@ -105,9 +104,12 @@ static NSString *const HNBRouterAnd = @"&";
     //给vc传参
     if(params && params.allKeys.count > 0 && vcInstance){
         params = [NSDictionary hnb_removeNullFromDictionary:params];
-        //TODO: chengk 将字典存到对象的各个属性里面，这个有待加强，不需要依赖mj
-        [vcInstance mj_setKeyValues:params];
-//        [vcInstance setValuesForKeysWithDictionary:params];
+        //可能需要自定义设置params
+        if([vcInstance respondsToSelector:@selector(hnbSetParams:)]){
+            [vcInstance hnbSetParams:params];
+        }else{
+            [vcInstance setValuesForKeysWithDictionary:params];
+        }
     }else{
         
     }
@@ -138,6 +140,53 @@ static NSString *const HNBRouterAnd = @"&";
         }
     }
     return (UINavigationController*)activityViewController;
+}
+
++ (id)openURL:(NSString *)urlString{
+    //hanabi://hnb?param1=oneValue&param2=twoValue&param3=threeValue
+    NSArray <NSString*>*arr = [urlString componentsSeparatedByString:HNBRouterParamSepartor];
+    NSMutableDictionary *params = @{}.mutableCopy;
+    if (arr.count > 1) {
+        for (NSString *string in [arr[1] componentsSeparatedByString:HNBRouterAnd]) {
+            NSString *key = [string componentsSeparatedByString:HNBRouterEqual][0];
+            NSString *value = [string componentsSeparatedByString:HNBRouterEqual][1];
+            [params setObject:value forKey:key];
+        }
+    }
+    return [self openURL:arr[0] withParams:params];
+}
+
++ (id)openURL:(NSString *)urlString withParams:(NSDictionary *)params{
+    UIViewController *vc = [self viewControllerForUrl:urlString withParams:params];
+    NSInteger tabIndex = [vc hnbIndex];
+    UIViewController *currentVC = [HNBBaseURLRouter shareURLRouter].config.hnbRouterTopViewController;
+    UINavigationController *currentNaviController = nil;
+    if ([currentVC isKindOfClass:[UINavigationController class]]) {
+        currentNaviController = (UINavigationController*)currentVC;
+    }else {
+        currentNaviController = currentVC.navigationController;
+    }
+    if(tabIndex != NSNotFound){
+        [currentNaviController popToRootViewControllerAnimated:NO];
+        [HNBBaseURLRouter shareURLRouter].config.hnbTabBarController.selectedIndex = tabIndex;
+        vc = [HNBBaseURLRouter shareURLRouter].config.hnbTabBarController.selectedViewController;
+    }else{
+        [currentNaviController pushViewController:vc animated:YES];
+    }
+    return vc;
+}
+
+//present出来的vc一定要携带 navigtion
++ (id)presentControllerWithURL:(NSString *)urlString withParams:(NSDictionary *)params prepreBlock:(PresentControllerBlock)presentBlock animated:(BOOL)animated completionBlock:(void (^)(void))completion{
+    UIViewController *vc = [self viewControllerForUrl:urlString withParams:params];
+//    UITabBarController *tabBarController = [HNBBaseURLRouter shareURLRouter].config.hnbTabBarController;
+    UIViewController *topViewController = [HNBBaseURLRouter shareURLRouter].config.hnbRouterTopViewController;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    if(presentBlock){
+        presentBlock(nav);
+    }
+    [topViewController presentViewController:nav animated:animated completion:completion];
+    return vc;
 }
 
 @end
