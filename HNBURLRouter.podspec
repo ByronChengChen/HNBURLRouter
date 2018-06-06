@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HNBURLRouter"
-  s.version      = "0.0.5"
+  s.version      = "0.0.6"
   s.summary      = "url router"
   s.homepage     = "https://github.com/ByronChengChen/HNBURLRouter"
   s.license      = { :type => "MIT", :file => "LICENSE" }
