@@ -8,8 +8,6 @@
 
 #import "HNBBaseURLRouter.h"
 
-#import "NSDictionary+Extension.h"
-
 static NSString *const HNBRouterParamSepartor = @"?";
 static NSString *const HNBRouterEqual = @"=";
 static NSString *const HNBRouterAnd = @"&";
@@ -105,15 +103,8 @@ static NSString *const HNBRouterAnd = @"&";
     
     //给vc传参
     if(params && params.allKeys.count > 0 && vcInstance){
-        params = [NSDictionary hnb_removeNullFromDictionary:params];
-        //可能需要自定义设置params
-        if([vcInstance respondsToSelector:@selector(hnbSetParams:)]){
-            [vcInstance hnbSetParams:params];
-        }else{
-            [vcInstance setValuesForKeysWithDictionary:params];
-        }
-    }else{
-        
+        //可能需要自定义设置params，你怎么在子类覆盖
+        [vcInstance hnbSetParams:params];
     }
     return vcInstance;
 }
